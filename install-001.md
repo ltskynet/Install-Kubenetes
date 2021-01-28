@@ -10,27 +10,27 @@ Log in to all three servers using the credentials on the lab page (either in you
 ### Get the Docker gpg, and add it to your repository.
 1. In all three terminals, run the following command to get the Docker gpg key:
 
-  curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
   
 2. Then add it to your repository:
 
-  sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+    sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
   
 ### Get the Kubernetes gpg key, and add it to your repository.
 
 1. In all three terminals, run the following command to get the Kubernetes gpg key:
 
-  curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+    curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
 
 2. Then add it to your repository:
 
-  cat << EOF | sudo tee /etc/apt/sources.list.d/kubernetes.list
-  deb https://apt.kubernetes.io/ kubernetes-xenial main
-  EOF
+    cat << EOF | sudo tee /etc/apt/sources.list.d/kubernetes.list
+    deb https://apt.kubernetes.io/ kubernetes-xenial main
+    EOF
 
 3. Update the packages:
 
-  sudo apt update
+    sudo apt update
 
 
 

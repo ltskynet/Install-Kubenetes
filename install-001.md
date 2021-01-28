@@ -10,7 +10,7 @@ Log in to all three servers using the credentials on the lab page (either in you
 ### Get the Docker gpg, and add it to your repository.
 1. In all three terminals, run the following command to get the Docker gpg key:
 
-    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+        curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
   
 2. Then add it to your repository:
 

@@ -14,23 +14,23 @@ Log in to all three servers using the credentials on the lab page (either in you
   
 2. Then add it to your repository:
 
-            sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+        sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
   
 ### Get the Kubernetes gpg key, and add it to your repository.
 
 1. In all three terminals, run the following command to get the Kubernetes gpg key:
 
-            curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+        curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
 
 2. Then add it to your repository:
 
-            cat << EOF | sudo tee /etc/apt/sources.list.d/kubernetes.list
-            deb https://apt.kubernetes.io/ kubernetes-xenial main
-            EOF
+        cat << EOF | sudo tee /etc/apt/sources.list.d/kubernetes.list
+        deb https://apt.kubernetes.io/ kubernetes-xenial main
+        EOF
 
 3. Update the packages:
 
-            sudo apt update
+        sudo apt update
 
 ### Install Docker, kubelet, kubeadm, and kubectl.
 1. In all three terminals, run the following command to install Docker, kubelet, kubeadm, and kubectl:
@@ -78,6 +78,44 @@ To join worker nodes to the cluster, we need to run that command, as root (we'll
 
         kubectl get pods
         
+### Use port forwarding to extend port 80 to 8081, and verify access to the pod directly.
+1. In the Controller server terminal, run the following command to forward the container port 80 to 8081 (replace <pod_name> with the name in the output from the previous command):
+
+        kubectl port-forward <pod_name> 8081:80
         
+2. Open a new terminal session and log in to the Controller server. Then, run this command to verify we can access this container directly:
+
+        curl -I http://127.0.0.1:8081
+We should see a status of OK.
+
+### Execute a command directly on a pod.
+1. In the original Controller server terminal, hit Ctrl+C to exit out of the running program.
+
+2. Still in Controller, execute the nginx version command from a pod (using the same <pod_name> as before):
+
+        kubectl exec -it <pod_name> -- nginx -v
+        
+### Create a service, and verify connectivity on the node port.
+
+1. In the original Controller server terminal, run the following command to create a NodePort service:
+
+        kubectl expose deployment nginx --port 80 --type NodePort
+
+2. View the service:
+
+        kubectl get services
+        
+3. Get the node the pod resides on.
+
+        kubectl get po -o wide
+
+4. Verify the connectivity by using curl on the NODE from the previous step and the port from when we viewed the service. Make sure to replace YOUR_NODE and YOUR_PORT with appropriate values for this lab.
+
+        curl -I YOUR_NODE:YOUR_PORT
+
+We should see a status of OK.
+
+## Conclusion
+Congratulations on completing this lab!        
 
 
